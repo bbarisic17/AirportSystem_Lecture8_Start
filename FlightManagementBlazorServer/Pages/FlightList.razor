@@ -30,11 +30,14 @@ else
             {
                 <tr>
                     <td>@flight.Number</td>
-                    <td>@flight.FlightDate</td>
+                    <td>@flight.FlightDate.ToString("dd.MM.yyyy")</td>
                     <td>@flight.FlightTime</td>
                     <td>@flight.Carrier</td>
                     <td>@flight.AirportTo</td>
                     <td>
+                        <a href="/EditFlight/@flight.Id" class="btn btn-primary">
+                            <span class="oi oi-pencil"></span>    
+                        </a>
                         <button type="button" @onclick="() => DeleteFlight(flight.Id)">
                             <span class="oi oi-delete"></span>
                         </button>
@@ -65,10 +68,12 @@ else
     private async Task DeleteFlight(int flightId)
     {
         await _flightService.DeleteFlight(flightId);
+        Flights = await _flightService.GetFlights();
     }
 
     private async Task ArchiveFlight(int flightId)
     {
         await _flightService.ArchiveFlight(flightId);
+        Flights = await _flightService.GetFlights();
     }
 }

@@ -13,9 +13,9 @@ namespace FlightManagementWebAPI.Repositories
             _airportSystemContext = airportSystemContext;
         }
 
-        public List<Flight> GetFlights()
+        public List<Flight> GetFlights(bool archived)
         {
-            return _airportSystemContext.Flights.ToList();
+            return _airportSystemContext.Flights.Where(flight => flight.IsArchived == archived).ToList();
         }
 
         public void InsertFlight(Flight flight)
@@ -63,11 +63,6 @@ namespace FlightManagementWebAPI.Repositories
                 flight.IsArchived = true;
                 _airportSystemContext.SaveChanges();
             }
-        }
-
-        public IEnumerable<Flight> GetArchivedFlights()
-        {
-            return _airportSystemContext.Flights.Where(flight => flight.IsArchived).ToList();
         }
     }
 }
